@@ -12,6 +12,7 @@ use
 use
     Acme\PizzaBundle\Entity\Factory\OrderFactory,
     Acme\PizzaBundle\Entity\Order,
+    Acme\PizzaBundle\Form\Type\OrderType,
     Acme\PizzaBundle\Form\OrderFormType
 ;
 
@@ -97,17 +98,21 @@ class OrderController extends Controller
             throw new NotFoundHttpException("Invalid Order.");
         }
 
-        $form = $this->createForm(new OrderType());
-        $form->setData($order);
+        $form = $this->createForm(new OrderType(), $order);
 
         $request = $this->getRequest();
 
         if ('POST' === $request->getMethod()) {
-
+            
+            $this->get('logger')->info($order->getItems()->count());
+            
             $form->bindRequest($request);
-
+            
+            $this->get('logger')->info($order->getItems()->count());
+            
             if ($form->isValid()) {
 
+                $em->persist($order);
                 $em->flush();
 
                 return $this->redirect($this->generateUrl('acme_pizza_order_edit', array(

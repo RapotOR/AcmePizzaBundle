@@ -7,18 +7,18 @@
 <h1>Edit Order #"{{ order.id }}"</h1>
 
 <form method="post" action="{{ path("acme_pizza_order_edit", {"id": order.id}) }}">
-    {{ form.errors }}
-    {{ form.widget }}
+    {{ form_errors(form) }}
+    {{ form_widget(form) }}
     <input type="submit" value="Update" />
 </form>
 
 <script>
 $(document).ready(function() {
-    var $$ = $("label:contains('$$name$$')").closest("div");
+    var $$ = $("label:contains('__name__')").closest("div");
     $$.find("input, select").attr('disabled', true);
     $$.hide();
 
-    /*
+    
     $$.find("div").each(function(i, item) {
         // console.log(i);
         // console.log(item);
@@ -27,7 +27,7 @@ $(document).ready(function() {
         k = "numero";
         console.log(k);
 
-        var pattern = /\$\$name\$\$/g;
+        var pattern = /__name__/g;
 
         var tmp = $(item).find("label");
         tmp.attr("for", tmp.attr("for").replace(pattern, k));
@@ -39,7 +39,7 @@ $(document).ready(function() {
         tmp.attr("id", tmp.attr("id").replace(pattern, k));
         tmp.attr("name", tmp.attr("name").replace(pattern, k));
     });
-    */
+    
 });
 </script>
 
